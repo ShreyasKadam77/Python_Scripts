@@ -12,6 +12,16 @@ from email import encoders
 
 
 def hashfile(path, blocksize=1024):
+    """
+     function uses md5 hashing algorithm to get hash value of file in hexadecimal digits.
+        It takes two parameters as:
+    :param path: path of file whose hash value is to be returned.
+    :param blocksize: reads only given bytes from file.
+
+    :return: hexadecimal digit value for given file.
+
+    """
+
     afile = open(path, 'rb')
     hasher = hashlib.md5()
 
@@ -25,6 +35,13 @@ def hashfile(path, blocksize=1024):
 
 
 def find_duplicates(dir_name):
+    """
+     function returns dictionary containing all the identical files with same key (checksum of file).
+        It takes one parameter as:
+    :param dir_name: directory name from which we need to find duplicate files.
+
+    """
+
     flag = os.path.isabs(dir_name)
     if flag == False:
         dir_name = os.path.abspath(dir_name)
@@ -48,6 +65,15 @@ def find_duplicates(dir_name):
 
 
 def create_log_of_duplicates(dict1, log_dir="Marvellous"):
+    """
+     function creates log file containing names of all duplicate files.
+        It takes two parameters as :
+    :param dict1: dictionary containing checksum and it's files as key-values pair.
+    :param log_dir: directory name in which log files are going to create.
+
+    :return: path of created log file.
+
+    """
     results = list(filter(lambda x: len(x) > 1, dict1.values()))
 
     if not os.path.exists(log_dir):
@@ -75,6 +101,14 @@ def create_log_of_duplicates(dict1, log_dir="Marvellous"):
         f.write("No duplicates are found.")
 
 def delete_duplicates(dict1):
+    """
+    function deletes all the duplicate files found from the dictionary.
+        It takes one parameter as :
+    :param dict1: dictionary containing checksum and it's files as key-values pair.
+
+    :return: 'n' total number of duplicate files which are deleted.
+
+    """
     results = list(filter(lambda x: len(x) > 1, dict1.values()))
 
     if len(results) > 0:
@@ -93,6 +127,16 @@ def delete_duplicates(dict1):
         pass
 
 def send_mail(attachment, mail_id, start_time, files_deleted):
+
+    """
+    function sends email with attachment to given mail id.
+    It takes 4 parameters as :
+    :param attachment: file to be attached with mail.
+    :param mail_id: receiver's mail id.
+    :param start_time: Execution start time of script.
+    :param files_deleted: Total number of files deleted.
+
+    """
 
     mail_content = f'''Starting time of Scanning : {start_time}
                     Number of Duplicate Files : {files_deleted}'''
