@@ -1,16 +1,13 @@
-# Q. We have a text file containing some data with url links. we have to detect url links from that file and and open
-#    each url link in new tab.
-
-# Check if internet is connected.
-# Get only URLs from that file.
-# Open those URL links in new tabs.
-
 from sys import *
 from urllib.request import urlopen
 import webbrowser
 import re
 
 def is_connected():
+    """
+    This function checks if internet is connected or not by simply opening google.com
+    :return: True if internet is connected else False
+    """
     try:
         result = urlopen("https://www.google.com")
         return True
@@ -18,10 +15,19 @@ def is_connected():
         return False
 
 def find_link(line):
-        url = re.findall("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$", line)
-        return url
+    """
+    This function finds only URLs in a line by using regular expression.
+    :param line: line of any file
+    :return: url founded
+    """
+    url = re.findall("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$", line)
+    return url
 
 def web_launch(link_file_path):
+    """
+    This function open URLs in new tabs of a browser.
+    :param link_file_path: path of file which contains URLs to be opened.
+    """
     with open(link_file_path) as fp:
         for line in fp:
             urls = find_link(line)
@@ -29,7 +35,7 @@ def web_launch(link_file_path):
                 webbrowser.open(link, new = 2)
 
 def main():
-    print("------------- Marvellous Infosystems Automations -------------")
+    print("------------- Automation Script -------------")
     print(f"Automation script started with name : {argv[0]}.")
 
 
